@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Harvest Kiosk</title>
+    <link rel="stylesheet" href="midtermstyles.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+    
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+        }
+    
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+    
+        .meal-card {
+            background: #6480A1;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+    
+        .meal-card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+    
+        .meal-card h3 {
+            margin: 10px 0 5px;
+            color: #F6F3E6;
+        }
+    
+        .meal-card p {
+            margin: 0 0 10px;
+            color: #BCE1E6;
+        }
+    
+        .meal-card button {
+            padding: 10px 15px;
+            background: #142A62;
+            color: #F6F3E6;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    
+        form {
+            background: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        #orderform {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #BCE1E6;
+            margin: 0 auto;
+            width: 600px;
+            padding: 20px;
+        }
+        form h2 {
+            margin-bottom: 15px;
+        }
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+    
+        form img {
+            width: 100%;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+    
+        form button {
+            background: #492E85;
+            color: #F6F3E6;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    
+        header {
+            display: block;
+            height: 100px;
+            width: 100%;
+            background-color: #8D79B3;
+        }
+        h1 {
+            text-align: center;
+        }
+        footer {
+            height: 100px;
+            width: 100%;
+            background-color: #8D79B3;
+        }
+        .ftext{
+            color: #142A62;
+            text-align: center;
+            font-size: 15px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <br>
+        <h1>FreshFarm Online Market</h1>
+    </header>
+
+    <div class="container" id="mcontainer"></div>
+
+    <form id="orderform" class="orderform">
+        <h2>Order a Meal</h2>
+        <input type="text" id="mname" placeholder="Name of Meal" readonly required />
+        <img id="mimage" src="" alt="Meal" />
+        <input type="number" id="qty" placeholder="Quantity" required />
+        <input type="number" id="prc" placeholder="Price" required />
+        <input type="text" id="bname" placeholder="Name of Buyer" required />
+        <input type="text" id="mbl" placeholder="Mobile Number" maxlength="11" required />
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const mealcontainer = document.getElementById('mcontainer');
+        const form = document.getElementById('orderform');
+        const mealnameinput = document.getElementById('mname');
+        const mealimageinput = document.getElementById('mimage');
+        const quantityinput = document.getElementById('qty');
+        const priceinput = document.getElementById('prc');
+        const buyernameinput = document.getElementById('bname');
+        const mobileinput = document.getElementById('mbl');
+
+        fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=a')
+        .then(res => res.json())
+        .then(data => {
+            data.meals.forEach(meal => {
+            const card = document.createElement('div');
+            card.className = 'meal-card';
+            card.innerHTML = `
+                <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
+                <h3>${meal.strMeal}</h3>
+                <p>${meal.strCategory}</p>
+                <button onclick='ordermeal(${JSON.stringify(meal)})'>Order Item</button>
+            `;
+            mealcontainer.appendChild(card);
+            });
+        });
+
+        function ordermeal(meal) {
+            mealnameinput.value = meal.strMeal;
+            mealimageinput.src = meal.strMealThumb;
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const qty = quantityinput.value.trim();
+            const prc = priceinput.value.trim();
+            const name = buyernameinput.value.trim();
+            const mbl = mobileinput.value.trim();
+
+            if (!mealnameinput.value || !mealimageinput.src || !qty || !prc || !name || !mbl) {
+                alert('All fields are required.');
+                return;
+            }
+
+            if (!/^\d+$/.test(qty) || !/^\d+$/.test(prc)) {
+                alert('Price and Quantity should only be numeric.');
+                return;
+            }
+
+            if (!/^[a-zA-Z\s]+$/.test(name)) {
+                alert('Name of Buyer should not contain any special characters.');
+                return;
+            }
+
+            if (!/^\d{11}$/.test(mbl)) {
+                alert('Mobile number should be numeric and has exactly 11 characters.');
+                return;
+            }
+
+            alert('Your order placed successfully');
+                form.reset();
+                mealimageinput.src = '';
+        });
+    </script>
+
+    <br>
+
+    <footer>
+        <div class="ftext">
+            <h2>MARY FRANCES M. TAULI. COPYRIGHT @ 2025</h2>
+        </div>
+    </footer>
+</body>
+</html>

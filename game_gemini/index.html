@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adventure Quest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Available Quests</h1>
+    <div id="quests-container">
+        </div>
+
+    <div id="quest-popup" class="popup-overlay">
+        <div class="popup-content">
+            <h2 id="popup-quest-name"></h2>
+            <p id="popup-quest-description"></p>
+            <p><strong>Point Value:</strong> <span id="popup-quest-points"></span></p>
+            <label for="player-answer">Your Answer:</label>
+            <input type="text" id="player-answer" placeholder="Enter your answer">
+            <button id="submit-answer">Submit Answer</button>
+            <p id="feedback-message"></p>
+            <button id="close-popup">Close</button>
+        </div>
+    </div>
+
+    <div id="completion-popup" class="popup-overlay">
+        <div class="popup-content">
+            <h2>Quest Completed!</h2>
+            <p>Total Points Earned: <span id="earned-points"></span></p>
+            <p>Completion Time: <span id="completion-time"></span></p>
+            <button id="return-to-quests">Return to Quests</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

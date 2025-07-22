@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adventure Quest Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Admin specific styles */
+        .admin-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .form-group button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        #quest-list {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .quest-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .quest-item:last-child {
+            border-bottom: none;
+        }
+
+        .quest-item span {
+            flex-grow: 1;
+        }
+
+        .delete-quest-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .delete-quest-btn:hover {
+            background-color: #c82333;
+        }
+
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h2>Admin Panel - Manage Quests</h2>
+
+        <div class="message" id="admin-message" style="display: none;"></div>
+
+        <form id="add-quest-form">
+            <h3>Add New Quest</h3>
+            <div class="form-group">
+                <label for="quest-name">Quest Name:</label>
+                <input type="text" id="quest-name" required>
+            </div>
+            <div class="form-group">
+                <label for="quest-description">Description:</label>
+                <textarea id="quest-description" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="quest-answer">Correct Answer:</label>
+                <input type="text" id="quest-answer" required>
+            </div>
+            <div class="form-group">
+                <label for="quest-points">Point Value:</label>
+                <input type="number" id="quest-points" required min="1">
+            </div>
+            <div class="form-group">
+                <label for="quest-difficulty">Difficulty:</label>
+                <select id="quest-difficulty" required>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Add Quest</button>
+            </div>
+        </form>
+
+        <div id="quest-list">
+            <h3>Existing Quests</h3>
+            </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
