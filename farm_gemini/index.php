@@ -2,7 +2,7 @@
     include 'dbconn.php'; // Include the database connection file
 
     $products = [];
-    $sql = "SELECT Product_ID, Product_Name, Price, Unit_Type, Image_URL FROM Products";
+    $sql = "SELECT Product_ID, Product_Name, Price, Unit_Type, Image_URL FROM products";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -67,6 +67,7 @@
         </div>
     </div>
 
+    <!-- <script src="script.js"></script> -->
     <script>
         // Pass PHP product data to JavaScript
         const productsData = <?= json_encode($products); ?>;
